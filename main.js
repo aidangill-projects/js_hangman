@@ -13,7 +13,7 @@ function main() {
 
         switch (query) {
             case "play":
-                playGame(score);
+                playGame() ? score.win_count++ : score.lose_count++;
                 break;
             case "results":
                 console.log(`You won: ${score.win_count} times.\nYou lost: ${score.lose_count} times.`);
@@ -25,8 +25,8 @@ function main() {
 
 }
 
-function playGame(score){
-
+// returns true if won, or false if lost
+function playGame(){
     let word_list = ['python', 'java', 'swift', 'javascript'];
 
     let word = word_list[Math.floor(Math.random() * word_list.length)];
@@ -54,15 +54,13 @@ function playGame(score){
         // check if all chars have been found
         if (getMask(word, guesses) === word) {
             console.log(`${word}\nYou guessed the word ${word}!\nYou survived!`);
-            score.win_count++;
-            return;
+            return true;
         }
 
         // attempts at 8 with no win -> lose
         if (attempts === 8){
             console.log("You lost!");
-            score.lose_count++;
-            return;
+            return false;
         }
 
     }
