@@ -14,18 +14,15 @@ function main() {
     while (true) {
         let query = input("Type \"play\" to play the game, \"results\" to show the scoreboard, and \"exit\" to quit:")
 
-        if (query === "play") {
-            console.log("");
-            playGame(score);
-        }
-
-        if (query === "results") {
-            console.log(`You won: ${score.win_count} times.`);
-            console.log(`You lost: ${score.lose_count} times.`);
-        }
-
-        if (query === "exit") {
-            return;
+        switch (query) {
+            case "play":
+                playGame(score);
+                break;
+            case "results":
+                console.log(`You won: ${score.win_count} times.\nYou lost: ${score.lose_count} times.`);
+                break;
+            case "exit":
+                return;
         }
     }
 
@@ -39,42 +36,40 @@ function playGame(score){
     let guesses = [];
     let attempts = 0;
 
+    console.log("");
+
     while (attempts <= 8) {
-        let curword = getCurrentWord(picked, guesses);
+        let curword = getMask(picked, guesses);
         console.log(curword);
 
         let entry = input("Input a letter: ");
 
         if (entry.length !== 1){
-            console.log("Please, input a single letter.");
-            console.log("");
+            console.log("Please, input a single letter.\n");
             continue;
         }
 
         if (!entry.match(/[a-z]/)){
-            console.log("Please, enter a lowercase letter from the English alphabet.");
-            console.log("");
+            console.log("Please, enter a lowercase letter from the English alphabet.\n");
             continue;
         }
 
         if (guesses.includes(entry)){
-            console.log("You've already guessed this letter.");
-            console.log("");
+            console.log("You've already guessed this letter.\n");
             continue;
         }
 
-        // add to guesses
         guesses.push(entry);
 
         // if our guess is not correct -> increase attempts
         if (!picked.includes(entry)){
-            console.log("That letter doesn't appear in the word.");
+            console.log("That letter doesn't appear in the word.\n");
             guesses.push(entry);
             attempts++;
         }
 
         // check if all chars have been found
-        if (getCurrentWord(picked, guesses) === picked) {
+        if (getMask(picked, guesses) === picked) {
             console.log(picked);
             console.log(`You guessed the word ${picked}!`);
             console.log("You survived!");
@@ -82,17 +77,17 @@ function playGame(score){
             return;
         }
 
+        // attempts at 8 with no win -> lose
         if (attempts === 8){
             console.log("You lost!");
             score.lose_count++;
             return;
         }
 
-        console.log("");
     }
 }
 
-function getCurrentWord(word, guessed){
+function getMask(word, guessed){
     let display = "";
     for (let a = 0; a < word.length; a++) {
         if (guessed.includes(word[a])){
