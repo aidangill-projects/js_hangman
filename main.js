@@ -5,7 +5,33 @@ const input = require('sync-input')
 
 function main() {
     console.log("H A N G M A N");
-    console.log("");
+
+    let score = {
+        win_count: 0,
+        lose_count: 0
+    }
+
+    while (true) {
+        let query = input("Type \"play\" to play the game, \"results\" to show the scoreboard, and \"exit\" to quit:")
+
+        if (query === "play") {
+            console.log("");
+            playGame(score);
+        }
+
+        if (query === "results") {
+            console.log(`You won: ${score.win_count} times.`);
+            console.log(`You lost: ${score.lose_count} times.`);
+        }
+
+        if (query === "exit") {
+            return;
+        }
+    }
+
+}
+
+function playGame(score){
 
     let word_list = ['python', 'java', 'swift', 'javascript'];
 
@@ -52,11 +78,13 @@ function main() {
             console.log(picked);
             console.log(`You guessed the word ${picked}!`);
             console.log("You survived!");
+            score.win_count++;
             return;
         }
 
         if (attempts === 8){
             console.log("You lost!");
+            score.lose_count++;
             return;
         }
 
