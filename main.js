@@ -47,14 +47,10 @@ function playGame(score){
         if (entry.length !== 1){
             console.log("Please, input a single letter.\n");
             continue;
-        }
-
-        if (!entry.match(/[a-z]/)){
+        } else if (!entry.match(/[a-z]/)){
             console.log("Please, enter a lowercase letter from the English alphabet.\n");
             continue;
-        }
-
-        if (guesses.includes(entry)){
+        } else if (guesses.includes(entry)){
             console.log("You've already guessed this letter.\n");
             continue;
         }
