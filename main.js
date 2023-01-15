@@ -6,10 +6,7 @@ const input = require('sync-input')
 function main() {
     console.log("H A N G M A N");
 
-    let score = {
-        win_count: 0,
-        lose_count: 0
-    }
+    let score = {win_count: 0, lose_count: 0};
 
     while (true) {
         let query = input("Type \"play\" to play the game, \"results\" to show the scoreboard, and \"exit\" to quit:")
