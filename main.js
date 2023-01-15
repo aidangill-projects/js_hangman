@@ -32,43 +32,31 @@ function playGame(score){
 
     let word_list = ['python', 'java', 'swift', 'javascript'];
 
-    let picked = word_list[Math.floor(Math.random() * word_list.length)];
+    let word = word_list[Math.floor(Math.random() * word_list.length)];
     let guesses = [];
     let attempts = 0;
 
     console.log("");
 
     while (attempts <= 8) {
-        let curword = getMask(picked, guesses);
+        let curword = getMask(word, guesses);
         console.log(curword);
 
         let entry = input("Input a letter: ");
 
-        if (entry.length !== 1){
-            console.log("Please, input a single letter.\n");
-            continue;
-        } else if (!entry.match(/[a-z]/)){
-            console.log("Please, enter a lowercase letter from the English alphabet.\n");
-            continue;
-        } else if (guesses.includes(entry)){
-            console.log("You've already guessed this letter.\n");
-            continue;
-        }
+        if (!isValidLetter(entry, guesses)) continue;
 
         guesses.push(entry);
 
-        // if our guess is not correct -> increase attempts
-        if (!picked.includes(entry)){
+        if (!word.includes(entry)){
             console.log("That letter doesn't appear in the word.\n");
             guesses.push(entry);
             attempts++;
         }
 
         // check if all chars have been found
-        if (getMask(picked, guesses) === picked) {
-            console.log(picked);
-            console.log(`You guessed the word ${picked}!`);
-            console.log("You survived!");
+        if (getMask(word, guesses) === word) {
+            console.log(`${word}\nYou guessed the word ${word}!\nYou survived!`);
             score.win_count++;
             return;
         }
@@ -81,6 +69,21 @@ function playGame(score){
         }
 
     }
+}
+
+function isValidLetter(entry, guesses){
+    if (entry.length !== 1){
+        console.log("Please, input a single letter.\n");
+        return false;
+    } else if (!entry.match(/[a-z]/)){
+        console.log("Please, enter a lowercase letter from the English alphabet.\n");
+        return false;
+    } else if (guesses.includes(entry)){
+        console.log("You've already guessed this letter.\n");
+        return false;
+    }
+
+    return true;
 }
 
 function getMask(word, guessed){
